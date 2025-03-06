@@ -218,6 +218,9 @@ export default function Page() {
           </p>
         )}
       </section>
+      <footer className="mt-10 text-center text-gray-400 text-sm">
+        Diese Website wurde schnell mit GitHub Copilot erstellt.  
+      </footer>
     </main>
   );
 }
