@@ -1,101 +1,210 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+
+type LengthUnit = 'giga' | 'mega' | 'kilo' | 'hekto' | 'deko' | 'meter' | 'dezi' | 'zenti' | 'milli' | 'mikro' | 'nano';
+type VolumeUnit = 'm3' | 'l' | 'cm3' | 'ml' | 'hl' | 'cl';
+
+const lengthFactors: Record<LengthUnit, number> = {
+  giga: 1e9,
+  mega: 1e6,
+  kilo: 1e3,
+  hekto: 1e2,
+  deko: 1e1,
+  meter: 1,
+  dezi: 1e-1,
+  zenti: 1e-2,
+  milli: 1e-3,
+  mikro: 1e-6,
+  nano: 1e-9,
+};
+
+const lengthDisplayNames: Record<LengthUnit, string> = {
+  giga: 'Gm',
+  mega: 'Mm',
+  kilo: 'km',
+  hekto: 'hm',
+  deko: 'dam',
+  meter: 'm',
+  dezi: 'dm',
+  zenti: 'cm',
+  milli: 'mm',
+  mikro: 'µm',
+  nano: 'nm',
+};
+
+function convertLength(value: number, from: LengthUnit, to: LengthUnit): number {
+  return (value * lengthFactors[from]) / lengthFactors[to];
+}
+
+const volumeFactors: Record<VolumeUnit, number> = {
+  m3: 1000,    // 1 m³ = 1000 Liter
+  l: 1,
+  cm3: 0.001,  // 1 cm³ = 0.001 Liter
+  ml: 0.001,   // 1 ml = 0.001 Liter (gleich wie cm³)
+  hl: 100,     // 1 hl = 100 Liter
+  cl: 0.01,    // 1 cl = 0.01 Liter
+};
+
+const volumeDisplayNames: Record<VolumeUnit, string> = {
+  m3: 'm³',
+  l: 'l',
+  cm3: 'cm³',
+  ml: 'ml',
+  hl: 'hl',
+  cl: 'cl',
+};
+
+function convertVolume(value: number, from: VolumeUnit, to: VolumeUnit): number {
+  return (value * volumeFactors[from]) / volumeFactors[to];
+}
+
+export default function Page() {
+  const [lengthValue, setLengthValue] = useState<string>('');
+  const [fromLengthUnit, setFromLengthUnit] = useState<LengthUnit>('meter');
+  const [toLengthUnit, setToLengthUnit] = useState<LengthUnit>('zenti');
+  const [lengthResult, setLengthResult] = useState<number | null>(null);
+
+  const [volumeValue, setVolumeValue] = useState<string>('');
+  const [fromVolumeUnit, setFromVolumeUnit] = useState<VolumeUnit>('m3');
+  const [toVolumeUnit, setToVolumeUnit] = useState<VolumeUnit>('l');
+  const [volumeResult, setVolumeResult] = useState<number | null>(null);
+
+  const lengthUnits: LengthUnit[] = ['giga', 'mega', 'kilo', 'hekto', 'deko', 'meter', 'dezi', 'zenti', 'milli', 'mikro', 'nano'];
+  const volumeUnits: VolumeUnit[] = ['m3', 'l', 'cm3', 'ml', 'hl', 'cl'];
+
+  const handleLengthSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const value = Number.parseFloat(lengthValue);
+    if (!Number.isNaN(value)) {
+      const result = convertLength(value, fromLengthUnit, toLengthUnit);
+      setLengthResult(result);
+    } else {
+      setLengthResult(null);
+    }
+  };
+
+  const handleVolumeSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const value = Number.parseFloat(volumeValue);
+    if (!Number.isNaN(value)) {
+      const result = convertVolume(value, fromVolumeUnit, toVolumeUnit);
+      setVolumeResult(result);
+    } else {
+      setVolumeResult(null);
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-100">
+      <h1 className="text-3xl font-bold mb-6">Avis Metric Umrechner</h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      <section className="bg-white shadow-md rounded-lg p-6 mb-8 w-full max-w-md">
+        <h2 className="text-xl font-semibold mb-4">Längenumrechnung</h2>
+        <form onSubmit={handleLengthSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-1">Wert eingeben:</label>
+            <input
+              type="number"
+              value={lengthValue}
+              onChange={(e) => setLengthValue(e.target.value)}
+              placeholder="Zahl eingeben"
+              required
+              className="border border-gray-300 rounded px-3 py-2 w-full"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          </div>
+          <div>
+            <label className="block mb-1">Von Einheit:</label>
+            <select
+              value={fromLengthUnit}
+              onChange={(e) => setFromLengthUnit(e.target.value as LengthUnit)}
+              className="border border-gray-300 rounded px-3 py-2 w-full"
+            >
+              {lengthUnits.map((unit) => (
+                <option key={unit} value={unit}>
+                  {lengthDisplayNames[unit]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block mb-1">Zu Einheit:</label>
+            <select
+              value={toLengthUnit}
+              onChange={(e) => setToLengthUnit(e.target.value as LengthUnit)}
+              className="border border-gray-300 rounded px-3 py-2 w-full"
+            >
+              {lengthUnits.map((unit) => (
+                <option key={unit} value={unit}>
+                  {lengthDisplayNames[unit]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
+            Umrechnen
+          </button>
+        </form>
+        {lengthResult !== null && (
+          <p className="mt-4 text-lg">
+            Ergebnis: {lengthResult} {lengthDisplayNames[toLengthUnit]}
+          </p>
+        )}
+      </section>
+
+      <section className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+        <h2 className="text-xl font-semibold mb-4">Volumenumrechnung</h2>
+        <form onSubmit={handleVolumeSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-1">Volumen eingeben:</label>
+            <input
+              type="number"
+              value={volumeValue}
+              onChange={(e) => setVolumeValue(e.target.value)}
+              placeholder="Zahl eingeben"
+              required
+              className="border border-gray-300 rounded px-3 py-2 w-full"
+            />
+          </div>
+          <div>
+            <label className="block mb-1">Von Einheit:</label>
+            <select
+              value={fromVolumeUnit}
+              onChange={(e) => setFromVolumeUnit(e.target.value as VolumeUnit)}
+              className="border border-gray-300 rounded px-3 py-2 w-full"
+            >
+              {volumeUnits.map((unit) => (
+                <option key={unit} value={unit}>
+                  {volumeDisplayNames[unit]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block mb-1">Zu Einheit:</label>
+            <select
+              value={toVolumeUnit}
+              onChange={(e) => setToVolumeUnit(e.target.value as VolumeUnit)}
+              className="border border-gray-300 rounded px-3 py-2 w-full"
+            >
+              {volumeUnits.map((unit) => (
+                <option key={unit} value={unit}>
+                  {volumeDisplayNames[unit]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
+            Umrechnen
+          </button>
+        </form>
+        {volumeResult !== null && (
+          <p className="mt-4 text-lg">
+            Ergebnis: {volumeResult} {volumeDisplayNames[toVolumeUnit]}
+          </p>
+        )}
+      </section>
+    </main>
   );
 }
