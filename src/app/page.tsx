@@ -78,6 +78,12 @@ export default function Page() {
     e.preventDefault();
     const value = Number.parseFloat(lengthValue);
     if (!Number.isNaN(value)) {
+      // Optionally, add additional check to avoid negative values
+      if (value < 0) {
+        setLengthResult(null);
+        alert("Bitte geben Sie eine positive Zahl ein.");
+        return;
+      }
       const result = convertLength(value, fromLengthUnit, toLengthUnit);
       setLengthResult(result);
     } else {
@@ -89,6 +95,11 @@ export default function Page() {
     e.preventDefault();
     const value = Number.parseFloat(volumeValue);
     if (!Number.isNaN(value)) {
+      if (value < 0) {
+        setVolumeResult(null);
+        alert("Bitte geben Sie eine positive Zahl ein.");
+        return;
+      }
       const result = convertVolume(value, fromVolumeUnit, toVolumeUnit);
       setVolumeResult(result);
     } else {
@@ -107,6 +118,7 @@ export default function Page() {
             <label className="block mb-1">Wert eingeben:</label>
             <input
               type="number"
+              min="0"
               value={lengthValue}
               onChange={(e) => setLengthValue(e.target.value)}
               placeholder="Zahl eingeben"
@@ -160,6 +172,7 @@ export default function Page() {
             <label className="block mb-1">Volumen eingeben:</label>
             <input
               type="number"
+              min="0"
               value={volumeValue}
               onChange={(e) => setVolumeValue(e.target.value)}
               placeholder="Zahl eingeben"
