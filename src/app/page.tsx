@@ -108,7 +108,7 @@ export default function Page() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-100">
+    <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-100 text-gray-900">
       <h1 className="text-3xl font-bold mb-6">Avis Metric Umrechner</h1>
 
       <section className="bg-white shadow-md rounded-lg p-6 mb-8 w-full max-w-md">
