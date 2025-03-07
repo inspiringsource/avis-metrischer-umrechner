@@ -219,7 +219,7 @@ export default function Page() {
         )}
       </section>
       <footer className="mt-10 text-center text-gray-400 text-sm">
-        Diese Website wurde 🐇 mit GitHub Copilot erstellt.  
+        Diese Website wurde 🐇 mit <a href='https://github.com/features/copilot' target='_blank' rel="noopener noreferrer">GitHub Copilot</a> erstellt.  
       </footer>
     </main>
   );
