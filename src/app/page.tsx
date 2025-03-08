@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import Image from 'next/image'
 
 type LengthUnit = 'giga' | 'mega' | 'kilo' | 'hekto' | 'deko' | 'meter' | 'dezi' | 'zenti' | 'milli' | 'mikro' | 'nano';
 type VolumeUnit = 'm3' | 'l' | 'cm3' | 'ml' | 'hl' | 'cl';
@@ -218,9 +219,24 @@ export default function Page() {
           </p>
         )}
       </section>
-      <footer className="mt-10 text-center text-gray-400 text-sm">
-        Diese Website wurde 🐇 mit <a href='https://github.com/features/copilot' target='_blank' rel="noopener noreferrer">GitHub Copilot</a> erstellt.  
-      </footer>
+        <footer className="mt-10 text-center text-gray-400 text-sm">
+          <small className="inline-flex items-center">
+            Diese Website wurde mit
+            <Image 
+              src="/copilot.png" 
+              alt="copilot" 
+              width={20} 
+              height={20} 
+              className="mx-1"
+            /> 
+            <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer">
+            GitHub Copilot
+            </a>
+            <span className="ml-1">{' '}</span> 
+            erstellt!
+          </small>
+    </footer>
+
     </main>
   );
 }
