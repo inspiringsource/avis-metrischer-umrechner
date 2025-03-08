@@ -225,8 +225,8 @@ export default function Page() {
             <Image 
               src="/copilot.png" 
               alt="copilot" 
-              width={20} 
-              height={20} 
+              width={25} 
+              height={25} 
               className="mx-1"
             /> 
             <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer">
