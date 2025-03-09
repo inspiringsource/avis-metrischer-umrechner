@@ -336,7 +336,7 @@ export default function Page() {
           />
           <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer">
             GitHub Copilot
-          </a>{' '}
+          </a><span className="ml-1">{' '}</span> 
           erstellt!
         </small>
       </footer>
