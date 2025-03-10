@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 type LengthUnit = 'giga' | 'mega' | 'kilo' | 'hekto' | 'deko' | 'meter' | 'dezi' | 'zenti' | 'milli' | 'mikro' | 'nano';
 type VolumeUnit = 'm3' | 'dm3' | 'l' | 'cm3' | 'ml' | 'hl' | 'cl';
@@ -326,18 +326,7 @@ export default function Page() {
       {/* Footer */}
       <footer className="mt-10 text-center text-gray-400 text-sm">
         <small className="inline-flex items-center">
-          Diese Website wurde mit{' '}
-          <Image 
-            src="/copilot.png" 
-            alt="copilot" 
-            width={25} 
-            height={25} 
-            className="mx-1"
-          />
-          <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer">
-            GitHub Copilot
-          </a><span className="ml-1">{' '}</span> 
-          erstellt!
+            Den Quellcode findest du hier: <a href="https://github.com/inspiringsource/avis-metrischer-umrechner" target="_blank" rel="noopener noreferrer" className="ml-1 underline">GitHub</a>
         </small>
       </footer>
     </main>
