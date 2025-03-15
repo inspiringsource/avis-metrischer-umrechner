@@ -1,6 +1,6 @@
 # Physik-Einheiten-Umrechner
 
-Dieses Repository enstand im Rahmen eines Vorbereitungskurses für die Aufnahmeprüfung an der FHNW. Es handelt sich um einen praktischen Physikeinheitenumrechner in Next.js.
+Dieses Repository enthält einen praktischen Physik-Einheiten-Umrechner, den ich während meiner Vorbereitung auf die Aufnahmeprüfung der FHNW entwickelt habe. Ziel war es, meine Berechnungen zu erleichtern und die Ergebnisse effizienter zu überprüfen.
 
 ## Auf dieser Website gibt es drei verschiedene Umrechner:
 
