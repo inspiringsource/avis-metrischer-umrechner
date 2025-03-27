@@ -1,6 +1,6 @@
 # Physik-Einheiten-Umrechner
 
-Dieses Repository enthält einen praktischen Physik-Einheiten-Umrechner, den ich während meiner Vorbereitung auf die Aufnahmeprüfung der FHNW entwickelt habe. Ziel war es, meine Berechnungen zu erleichtern und die Ergebnisse effizienter zu überprüfen.
+Dieses Repository enthält einen praktischen Physik-Einheiten-Umrechner, den ich während meiner Vorbereitung auf die Aufnahmeprüfung der FHNW entwickelt habe. 
 
 ## Auf dieser Website gibt es drei verschiedene Umrechner:
 
